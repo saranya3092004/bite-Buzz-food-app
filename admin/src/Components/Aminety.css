@@ -1,0 +1,217 @@
+
+h1, h2, h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+}
+
+.sidebar.visible {
+  transform: translateX(0);
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 15px;
+  cursor: pointer;
+}
+
+.sidebar li:hover {
+  background-color: #f0f0f0;
+}
+
+/* Header */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #007bff;
+  color: white;
+}
+
+.logout-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+.logout-btn:hover {
+  background-color: #c82333;
+}
+
+/* Toggle Button (Only visible on mobile) */
+.toggle-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+}
+
+/* Mobile view adjustments */
+@media (max-width: 768px) {
+  .toggle-btn {
+    display: block;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+  }
+}
+
+
+
+/* Store Buttons */
+.Aminety-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.Aminety-buttons button {
+  margin: 0 10px;
+}
+
+
+.Aminetycategories-section{
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.Aminetycategories-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+
+/* Items Section */
+.Aminetyitems-overlay {
+  position: fixed;
+  top: 85px;
+  right: 0;
+  width: 60%; /* Increased width */
+  max-width: 800px;
+  height: calc(100vh - 85px); /* Full screen height minus the top margin */
+  background-color: white;
+  box-shadow: -4px 0 10px rgba(99, 141, 189, 0.2);
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+}
+
+
+
+.Aminetyitems-list {
+  margin-top: 40px;
+}
+
+.Aminety-item-card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+
+.Aminetyitems-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.Aminety-item-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  height: 300px; /* Set a consistent height for all cards */
+}
+
+.Aminety-item-card img {
+  max-width: 100%;
+  height: 100px; /* Set a consistent height for images */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  object-fit: contain; /* Ensure images fit within the defined size */
+}
+
+.Aminety-item-card h4{
+  margin:5px;
+}
+
+.Aminety-item-card p{
+  margin-bottom: 2px;
+}
+
+
+
+/* Top Sale Section */
+.top-sale-section {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto 30px;
+  background-color: #fff;
+}
+
+.top-sale-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.top-sale-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  background-color: #fff;
+}
+
+.top-sale-card img {
+  max-width: 100%;
+  height: 100px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  object-fit: contain;
+}

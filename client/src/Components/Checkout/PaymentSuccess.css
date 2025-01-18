@@ -1,0 +1,33 @@
+.payment-success-container {
+    text-align: center;
+    padding: 50px;
+    margin-top: 15%;
+    margin-left: 450px;
+    background-color: #cacaed;
+    max-width: 50%;
+    height: 250px;
+    border-radius: 20px;
+  }
+  
+  .payment-success-container h1 {
+    color: #4caf50;
+  }
+  
+  .payment-success-container p {
+    font-size: 18px;
+    margin: 20px 0;
+  }
+  
+  .browse-more-btn {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .browse-more-btn:hover {
+    background-color: #45a049;
+  }
+  

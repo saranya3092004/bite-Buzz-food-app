@@ -1,0 +1,135 @@
+
+/* Store Buttons */
+.Store-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+/* Categories Section */
+.Storecategories-section {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.Storecategories-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.category-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  height: 250px; /* Set a consistent height for all cards */
+}
+
+.category-card img {
+  max-width: 100%;
+  height: 100px; /* Set a consistent height for images */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  object-fit: contain; /* Ensure images fit within the defined size */
+}
+
+.category-card h4 {
+  font-size: 16px;
+}
+
+
+/* New styles for button container */
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px; /* Space between buttons */
+}
+
+.button-container button {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button-container button:nth-child(1),
+.button-container button:nth-child(2) {
+  flex: 0 1 calc(45% - 10px); /* First two buttons take up 45% width each */
+}
+
+.button-container button:nth-child(3) {
+  flex: 0 1 50%; /* Third button takes the full width */
+}
+
+.button-container button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Items Section */
+.Storeitems-overlay {
+  position: fixed;
+  top: 85px;
+  right: 0;
+  width: 60%; /* Increased width */
+  max-width: 800px;
+  height: calc(100vh - 85px); /* Full screen height minus the top margin */
+  background-color: white;
+  box-shadow: -4px 0 10px rgba(99, 141, 189, 0.2);
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+}
+
+
+.Storeitems-list {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  height: auto;
+}
+
+.Store-item-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  height: 300px; /* Set a consistent height for all cards */
+}
+
+
+
+.Store-item-card img {
+  max-width: 100%;
+  height: 100px; /* Set a consistent height for images */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  object-fit: contain; /* Ensure images fit within the defined size */
+}
+
+
+.Store-item-card p{
+  margin:5px;
+}
+
+.Store-item-card h4{
+  margin-bottom: 2px;
+}

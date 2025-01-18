@@ -1,0 +1,249 @@
+
+/* Container for the whole page */
+.home-container {
+  background-color: rgb(172, 175, 194); /* Replace with your desired color */
+  padding: 20px;
+  min-height: 100vh; /* Ensures it covers the full viewport height */
+  
+}
+
+
+/* Hero Section Styles */
+.hero-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+/* Align hero text */
+.hero-text {
+  flex: 1; /* Allow the text to take available space */
+  margin-left: 70px;
+  margin-right: 20px;
+  margin-bottom: 20%;
+  margin-top: 5%;
+}
+
+.hero-text h1 {
+  color: rgb(1, 1, 1);
+  font-size: 3rem;
+ 
+}
+
+.hero-text p {
+  padding-top: 20px;
+  font-size: 1.3rem;
+  color: rgb(0, 0, 0);
+}
+
+.buttons {
+  margin: 20px 0;
+}
+
+.explore {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #d52e35; /* Red color */
+  color: white;
+}
+
+.hero-image {
+  flex: 1; /* Allow the image to take available space */
+  display: flex; /* Center image inside this div */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+}
+
+
+
+.hero-image img {
+  margin-top: 5%;
+  width: 80%; /* Adjust image size */
+}
+
+
+.hero-image img {
+  filter: drop-shadow(0 40px 8px rgb(162, 162, 179)); /* Adds a shadow around the image */
+  border-radius: 400px; /* Optional: Rounded corners for a refined look */
+}
+
+
+.store-section {
+  display: grid; /* Create a grid for the store cards */
+  grid-template-columns: repeat(3, 1fr); /* Create a grid with 3 columns */
+  justify-content: center;
+  gap: 40px; /* Space between cards */
+  width: 60%; 
+  padding: 0 70px; /* Optional: add some horizontal padding to align with hero text */
+  margin-top: -250px;
+  
+}
+
+/* Store Card Styles */
+.store-card {
+  border-radius: 8px;
+  background: rgb(178, 203, 203);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  height: 150px;
+  margin-bottom: 30%;
+ 
+}
+
+.icon {
+  font-size: 80px; /* Increase the icon size */
+  color: rgb(33, 5, 5);
+}
+
+/* Step effect for store cards */
+.store-card:nth-child(1) {
+  color: rgb(33, 5, 5);
+  margin-top: 20px; /* First card */
+}
+
+.store-card:nth-child(2) {
+  color: rgb(33, 5, 5);
+  margin-top: 70px; /* Second card */
+}
+
+.store-card:nth-child(3) {
+  color: rgb(33, 5, 5);
+  margin-top: 120px; /* Third card */
+}
+
+.store-card:hover {
+  transform: translateY(-5px); /* Add hover effect */
+}
+
+
+@media screen and (min-width: 769px) and (max-width: 1024px) 
+{
+  .hero-section {
+    flex-direction: column; /* Stack text and image vertically */
+    padding: 20px;
+    margin-top: 10%;
+  }
+
+  .hero-text {
+    margin-top: 5%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    text-align: center; /* Center-align text */
+  }
+
+  .hero-text h1 {
+    font-size: 2.5rem; /* Adjust heading size for tablets */
+  }
+
+  .hero-text p {
+    font-size: 1.1rem; /* Adjust paragraph size */
+  }
+
+  .hero-image img {
+    padding: 0;
+    margin-top: 0;
+    margin-left: 90%;
+    width: 65%; /* Adjust image size for tablets */
+    
+  }
+
+  .explore
+  {
+    margin-left: 0;
+    padding: 10px 15px; /* Adjust padding */
+  }
+
+  .store-section {
+    padding: 20px;
+    grid-template-columns: repeat(3, 1fr); /* 2 cards per row on tablets */
+    gap:5px;
+    margin-top: -350px; /* Adjust margin-top for tablets */
+  }
+
+  .store-card {
+    height: 150px; /* Adjust card height */
+    width: 80%;
+    padding: 0;
+
+  }
+
+  .icon {
+    font-size: 60px; /* Adjust icon size */
+  }
+}
+
+/* Mobile View (up to 768px) */
+@media screen and (max-width: 768px) {
+  body {
+    margin: 5% 2%; /* Reduce the body margin */
+  }
+
+  .hero-section {
+    margin-top: 15%;
+    flex-direction: column; /* Stack text and image vertically */
+    padding: 10px;
+  }
+
+  .hero-text {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center; /* Center-align text */
+    margin-bottom: 0; /* Reduce bottom margin */
+  }
+
+  .hero-text h1 {
+    font-size: 2rem; /* Adjust heading size for mobile */
+  }
+
+  .hero-text p {
+    font-size: 1rem; /* Adjust paragraph size */
+  }
+
+  .hero-image img {
+    width: 80%; /* Adjust image size for mobile */
+    margin-bottom: 10%;
+  }
+
+  .explore {
+    margin-left: 0;
+    padding: 10px 15px; /* Adjust padding */
+  }
+
+  .store-section {
+    grid-template-columns: 1fr; /* One card per row on mobile */
+    width: 100%; /* Use full width on mobile */
+    padding: 0 20px; /* Reduce padding */
+    margin-top:0px; /* Adjust margin-top for mobile */
+    gap:1px;
+  }
+
+  .store-card {
+    height: 200px; /* Adjust card height */
+    margin-bottom: 5%;
+  }
+
+  .store-card:nth-child(1) {
+    margin-top: 10px; /* First card */
+  }
+  
+  .store-card:nth-child(2) {
+    margin-top: 10px; /* Second card */
+  }
+  
+  .store-card:nth-child(3) {
+
+    margin-top: 10px; /* Third card */
+  }
+
+  .icon {
+    font-size: 50px; /* Adjust icon size */
+  }
+}

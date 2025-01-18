@@ -1,0 +1,182 @@
+/* Sidebar styling */
+.category-sidebar {
+  position: fixed; /* Fix the sidebar */
+  top: 74px; /* Align to the top */
+  left: 0; /* Align to the left */
+  width: 250px; /* Ensure consistent width */
+  height: 100vh; /* Full height of the viewport */
+  padding: 20px;
+  background-color: rgb(235, 236, 244);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; /* Enable scrolling for the sidebar content */
+  z-index: 100; /* Ensure it appears above other content */
+}
+
+/* Main content adjustment */
+.category-items-content {
+  margin-left: 270px; /* Leave space for the fixed sidebar */
+  flex: 1;
+  padding: 20px;
+}
+
+/* General container styling */
+.container {
+  display: flex;
+  margin-top: 5%;
+  gap: 30px;
+  min-height: 100vh;
+  background-color: #c2c2c4;
+}
+
+
+
+.category-sidebar h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.category-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.category-sidebar li {
+  margin: 10px 0;
+}
+
+.category-sidebar a {
+  font-size: 1.2rem;
+  color: #555;
+  text-decoration: none;
+  display: block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-sidebar a:hover {
+  background-color: #46495b;
+  color: #fff;
+}
+
+.category-sidebar .active {
+  background-color: #46495b;
+  color: #fff;
+}
+
+/* Category items content section */
+
+
+.category-items-content h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Items container styling */
+.items-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.item-card {
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 300px;
+  height: 360px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Image styling */
+.item-image {
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+  margin-bottom: 10px;
+  border-radius: 8px;
+}
+
+/* Item details */
+.item-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.item-card p {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  color: #555;
+  
+}
+
+.item-card button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #7f858f;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.item-card button:disabled {
+  background-color: #b6afaf;
+  cursor: not-allowed;
+}
+
+.item-card button:hover:not(:disabled) {
+  background-color: #585857;
+}
+
+/* Price and quantity box styling */
+.item-card .price-box, .item-card .quantity-box {
+  display: inline-block;
+  background-color: #f8f8f8; /* Light background for the box */
+  padding: 10px;
+  font-size: 1rem;
+  color: #333;
+  margin-top: 10px;
+  border-radius: 5px;
+  width: auto;
+  border: 1px solid #ddd; /* Adding a border around the box */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow effect */
+  text-align: center;
+}
+
+.item-card .price-box {
+  background-color: #e0f7fa; /* Light blue background for price */
+}
+
+.item-card .quantity-box {
+  background-color: #ffeb3b; /* Light yellow background for quantity */
+}
+
+/* Responsive Design */
+@media screen and (max-width: 1024px) {
+  .items-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .items-container {
+    grid-template-columns: 1fr;
+  }
+
+  .category-sidebar {
+    width: 200px;
+  }
+}

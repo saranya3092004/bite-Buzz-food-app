@@ -1,0 +1,148 @@
+
+
+
+/* Store Buttons */
+.Mario-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.Mario-buttons button {
+  margin: 0 10px;
+}
+
+/* Add Item Section */
+.add-item-section {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto 30px;
+  background-color: #fff;
+}
+
+.add-item-section input,
+.add-item-section select {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-item-section button {
+  width: 100%;
+}
+
+/* Add Category Section */
+.add-category-section {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 500px;
+  margin: 0 auto 30px;
+  background-color: #fff;
+}
+
+.add-category-section input {
+  display: block;
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.add-category-section button {
+  width: 100%;
+}
+
+/* Categories Section */
+.Mariocategories-section {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #fff;
+}
+
+.Mariocategories-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+
+/* Items Section */
+.Marioitems-overlay {
+  position: fixed;
+  top: 85px;
+  right: 0;
+  width: 60%; /* Increased width */
+  max-width: 800px;
+  height: calc(100vh - 85px); /* Full screen height minus the top margin */
+  background-color: white;
+  box-shadow: -4px 0 10px rgba(99, 141, 189, 0.2);
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds height */
+}
+
+.close-overlay {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: blue;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.Marioitems-list {
+  margin-top: 40px;
+}
+
+.Mario-item-card {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+
+.Marioitems-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.Mario-item-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  width: 200px;
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  height: 300px; /* Set a consistent height for all cards */
+}
+
+.Mario-item-card img {
+  max-width: 100%;
+  height: 100px; /* Set a consistent height for images */
+  border-radius: 5px;
+  margin-bottom: 10px;
+  object-fit: contain; /* Ensure images fit within the defined size */
+}
+
+.Mario-item-card h4{
+  margin:5px;
+}
+
+
+.Mario-item-card p{
+  margin-bottom: 2px;
+}
