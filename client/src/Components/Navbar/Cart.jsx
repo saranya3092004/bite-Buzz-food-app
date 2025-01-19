@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   getFirestore,
@@ -24,13 +23,48 @@ const Cart = () => {
   const [{ user }] = useStateValue();
 
   const handleCheckout = async () => {
+    console.log("Checkout initiated");
     if (user) {
+      // Filter the cartItems based on selected items
       const selectedData = cartItems.filter((item) => selectedItems[item.id]);
 
+      console.log("Selected items for checkout:", selectedData);
+
+      // Check if any items are selected for checkout
       if (selectedData.length > 0) {
-        navigate("/checkout", {
-          state: { items: selectedData },
-        });
+        try {
+          // Fetch the latest cart data from Firebase for the selected items
+          const updatedSelectedData = await Promise.all(
+            selectedData.map(async (item) => {
+              const itemDocRef = doc(db, "userCarts", user.uid);
+              const itemDoc = await getDoc(itemDocRef);
+
+              if (itemDoc.exists()) {
+                const itemData = itemDoc.data().items[item.id] || {};
+                const updatedCartQuantity = itemData.cartQuantity || 1; // Get the latest cartQuantity from Firebase
+                console.log("Updated cart quantity for item:", itemData);
+                return {
+                  ...item,
+                  cartQuantity: updatedCartQuantity,
+                  totalPrice: item.price * updatedCartQuantity, // Recalculate total price
+                };
+              } else {
+                // If the item does not exist in Firebase, return the item as is
+                console.log("Item not found in Firebase:", item);
+                return item;
+              }
+            })
+          );
+
+          console.log("Updated selected items with details:", updatedSelectedData);
+
+          // Pass the updated data to the CheckoutPage
+          navigate("/checkout", {
+            state: { items: updatedSelectedData }, // Send updated items with cartQuantity
+          });
+        } catch (error) {
+          console.error("Error fetching cart data for checkout:", error);
+        }
       } else {
         console.log("No items selected for checkout");
       }
@@ -83,34 +117,114 @@ const Cart = () => {
     fetchCartItems();
   }, [dispatch]);
 
-  const updateCartQuantity = async (itemDocId, cartQuantity) => {
-    if (cartQuantity < 1) return;
 
-    const user = auth.currentUser;
-    if (user) {
-      const userId = user.uid;
-      const cartDocRef = doc(db, "userCarts", userId);
+const decrementCartQuantity = async (itemDocId, currentQuantity) => {
+  const newQuantity = Math.max(1, currentQuantity - 1); // Ensure quantity does not go below 1
 
-      try {
-        const item = cartItems.find((item) => item.id === itemDocId);
-        await updateDoc(cartDocRef, {
-          [`items.${itemDocId}.cartQuantity`]: cartQuantity,
-        });
+  const user = auth.currentUser;
+  if (user) {
+    const userId = user.uid;
+    const cartDocRef = doc(db, "userCarts", userId);
 
-        const updatedCart = cartItems.map((item) =>
-          item.id === itemDocId
-            ? { ...item, cartQuantity }
-            : item
-        );
-        setCartItems(updatedCart);
-        dispatch({ type: "SET_CART_ITEMS", cartItems: updatedCart }); // Dispatch updated cart state
+    const collections = ["Aminetyitems", "Marioitems", "Storeitems"];
+    let originalItem = null;
 
-        console.log(`Item ID: ${itemDocId} updated to Cart Quantity: ${cartQuantity}`);
-      } catch (error) {
-        console.error("Error updating cart quantity:", error);
+    try {
+      // Search for the item in all collections
+      for (const collectionName of collections) {
+        const originalItemDocRef = doc(db, collectionName, itemDocId);
+        const originalItemSnapshot = await getDoc(originalItemDocRef);
+
+        if (originalItemSnapshot.exists()) {
+          originalItem = { ...originalItemSnapshot.data(), collectionName };
+          break;
+        }
       }
+
+      if (!originalItem) {
+        console.warn(`Item with ID ${itemDocId} not found in any collection.`);
+        return;
+      }
+
+      // Update Firestore and local state
+      await updateDoc(cartDocRef, {
+        [`items.${itemDocId}.cartQuantity`]: newQuantity,
+      });
+
+      // Update local cart items
+      const updatedCart = cartItems.map((item) =>
+        item.id === itemDocId ? { ...item, cartQuantity: newQuantity } : item
+      );
+      setCartItems(updatedCart);
+      dispatch({ type: "SET_CART_ITEMS", cartItems: updatedCart });
+
+      console.log(`Item ID: ${itemDocId} updated to Cart Quantity: ${newQuantity}`);
+    } catch (error) {
+      console.error("Error updating cart quantity:", error);
     }
-  };
+  }
+};
+
+
+const incrementCartQuantity = async (itemDocId, currentQuantity) => {
+  const newQuantity = currentQuantity + 1;
+
+  const user = auth.currentUser;
+  if (user) {
+    const userId = user.uid;
+    const cartDocRef = doc(db, "userCarts", userId);
+
+    const collections = ["Aminetyitems", "Marioitems", "Storeitems"];
+    let originalItem = null;
+
+    try {
+      // Search for the item in all collections
+      for (const collectionName of collections) {
+        const originalItemDocRef = doc(db, collectionName, itemDocId);
+        const originalItemSnapshot = await getDoc(originalItemDocRef);
+
+        if (originalItemSnapshot.exists()) {
+          originalItem = { ...originalItemSnapshot.data(), collectionName };
+          break;
+        }
+      }
+
+      if (!originalItem) {
+        console.warn(`Item with ID ${itemDocId} not found in any collection.`);
+        return;
+      }
+
+      const availableQuantity = parseInt(originalItem.quantity, 10);
+
+      // Check if the new quantity exceeds available stock
+      if (newQuantity > availableQuantity) {
+        alert(`Insufficient quantity! Only ${availableQuantity} items available in stock.`);
+        return;
+      }
+
+      // Update Firestore and local state
+      await updateDoc(cartDocRef, {
+        [`items.${itemDocId}.cartQuantity`]: newQuantity,
+      });
+
+      // Update local cart items
+      const updatedCart = cartItems.map((item) =>
+        item.id === itemDocId ? { ...item, cartQuantity: newQuantity } : item
+      );
+      setCartItems(updatedCart);
+      dispatch({ type: "SET_CART_ITEMS", cartItems: updatedCart });
+
+      console.log(`Item ID: ${itemDocId} updated to Cart Quantity: ${newQuantity}`);
+    } catch (error) {
+      console.error("Error updating cart quantity:", error);
+    }
+  }
+};
+
+
+
+
+
 
   const removeItem = async (itemDocId) => {
     const user = auth.currentUser;
@@ -134,12 +248,52 @@ const Cart = () => {
     }
   };
 
-  const toggleSelectItem = (itemId) => {
-    setSelectedItems((prevSelectedItems) => ({
-      ...prevSelectedItems,
-      [itemId]: !prevSelectedItems[itemId], // Toggle the selection state
-    }));
+  const toggleSelectItem = async (itemId) => {
+    const collections = ["Aminetyitems", "Marioitems", "Storeitems"];
+    let originalItem = null;
+  
+    try {
+      // Search for the item in all collections
+      for (const collectionName of collections) {
+        const originalItemDocRef = doc(db, collectionName, itemId);
+        const originalItemSnapshot = await getDoc(originalItemDocRef);
+  
+        if (originalItemSnapshot.exists()) {
+          originalItem = { ...originalItemSnapshot.data(), collectionName };
+          break;
+        }
+      }
+  
+      if (!originalItem) {
+        console.warn(`Item with ID ${itemId} not found in any collection.`);
+        return;
+      }
+  
+      const availableQuantity = parseInt(originalItem.quantity, 10);
+      const cartItem = cartItems.find((item) => item.id === itemId);
+  
+      if (!cartItem) {
+        console.warn(`Item with ID ${itemId} not found in cart.`);
+        return;
+      }
+  
+      if (cartItem.cartQuantity > availableQuantity) {
+        alert(
+          `Insufficient quantity for "${cartItem.name}"! Only ${availableQuantity} items are available in stock.`
+        );
+        return;
+      }
+  
+      // Toggle the selection state if quantity is valid
+      setSelectedItems((prevSelectedItems) => ({
+        ...prevSelectedItems,
+        [itemId]: !prevSelectedItems[itemId],
+      }));
+    } catch (error) {
+      console.error("Error toggling item selection:", error);
+    }
   };
+  
 
   const getSelectedSummary = () => {
     const selected = cartItems.filter((item) => selectedItems[item.id]);
@@ -151,13 +305,39 @@ const Cart = () => {
     return { totalItems, totalPrice };
   };
 
-  const handleSelectAll = (isChecked) => {
+  const handleSelectAll = async (isChecked) => {
     const newSelectedItems = {};
-    cartItems.forEach((item) => {
-      newSelectedItems[item.id] = isChecked; // Set all items as selected/unselected
-    });
+  
+    for (const item of cartItems) {
+      const collections = ["Aminetyitems", "Marioitems", "Storeitems"];
+      let originalItem = null;
+  
+      for (const collectionName of collections) {
+        const originalItemDocRef = doc(db, collectionName, item.id);
+        const originalItemSnapshot = await getDoc(originalItemDocRef);
+  
+        if (originalItemSnapshot.exists()) {
+          originalItem = { ...originalItemSnapshot.data(), collectionName };
+          break;
+        }
+      }
+  
+      if (originalItem) {
+        const availableQuantity = parseInt(originalItem.quantity, 10);
+  
+        if (item.cartQuantity <= availableQuantity) {
+          newSelectedItems[item.id] = isChecked; // Only select valid items
+        } else if (isChecked) {
+          alert(
+            `Item "${item.name}" cannot be selected. Only ${availableQuantity} items are available in stock.`
+          );
+        }
+      }
+    }
+  
     setSelectedItems(newSelectedItems);
   };
+  
 
   if (loading) return <div className="cart-loading">Loading cart...</div>;
   if (error) return <div className="cart-error">{error}</div>;
@@ -173,21 +353,23 @@ const Cart = () => {
         <div className="cart-content">
           <div className="cart-items">
             <div className="cart-header">
-              <input
-                type="checkbox"
-                onChange={(e) => handleSelectAll(e.target.checked)}
-                checked={Object.values(selectedItems).every((v) => v === true)}
-              />
+            <input
+  type="checkbox"
+  onChange={(e) => handleSelectAll(e.target.checked)}
+  checked={cartItems.every((item) => selectedItems[item.id])}
+/>
+
               <span>Select All</span>
             </div>
 
             {cartItems.map((item) => (
               <div key={item.id} className="cart-item-card">
                 <input
-                  type="checkbox"
-                  checked={selectedItems[item.id] || false}
-                  onChange={() => toggleSelectItem(item.id)}
-                />
+  type="checkbox"
+  checked={selectedItems[item.id] || false}
+  onChange={() => toggleSelectItem(item.id)}
+/>
+
                 <img
                   src={item.image}
                   alt={item.name}
@@ -198,22 +380,24 @@ const Cart = () => {
                   <p>Price: Rs.{item.price.toFixed(2)}</p>
                   
                   <div className="cart-item-actions">
-                    <button
-                      onClick={() =>
-                        updateCartQuantity(item.id, Math.max(1, item.cartQuantity - 1))
-                      }
-                    >
-                      -
-                    </button>
-                    <span>{item.cartQuantity}</span>
-                    <button
-                      onClick={() =>
-                        updateCartQuantity(item.id, item.cartQuantity + 1)
-                      }
-                    >
-                      +
-                    </button>
-                  </div>
+  {/* Decrement Button */}
+  <button
+    onClick={() => decrementCartQuantity(item.id, item.cartQuantity)}
+  >
+    -
+  </button>
+
+  <span>{item.cartQuantity}</span>
+
+  {/* Increment Button */}
+  <button
+    onClick={() => incrementCartQuantity(item.id, item.cartQuantity)}
+  >
+    +
+  </button>
+</div>
+
+
                   <p>Total: Rs.{(item.price * item.cartQuantity).toFixed(2)}</p>
                   <button
                     onClick={() => removeItem(item.id)}
