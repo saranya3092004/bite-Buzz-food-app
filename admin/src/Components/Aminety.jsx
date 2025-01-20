@@ -48,26 +48,30 @@ const fetchTopSaleItems = async () => {
 // 2. Add Item to Top Sale
 const handleAddToTopSale = async (item) => {
   try {
+    // Check if the topSaleItems list has reached the limit
     if (topSaleItems.length >= 9) {
-      alert("You can only add up to 9 Aminetyitems to Top Sale.");
+      alert("You can only add up to 9 items to Top Sale.");
       return;
     }
 
-    // Add item to topSale collection with the original item.id
+    // Add the item to the topSale collection in Firestore with the original item.id
     const docRef = await addDoc(collection(db, "topSale"), {
       ...item,
-      originalId: item.id,  // Aminety the original item ID as a field
+      originalId: item.id, // Store the original item's ID for reference
     });
 
-    // Add the item with Firestore document ID into the topSaleItems state
+    console.log("Item successfully added to Firestore topSale collection");
+
+    // Update the local topSaleItems state with the new item and its Firestore ID
     setTopSaleItems((prevTopSaleItems) => [
       ...prevTopSaleItems,
-      { ...item, firestoreId: docRef.id }, // Aminety the Firestore document ID separately
+      { ...item, firestoreId: docRef.id }, // Include the Firestore document ID
     ]);
   } catch (error) {
-    console.error("Error adding item to top sale:", error);
+    console.error("Error adding item to Top Sale:", error);
   }
 };
+
 
 // 3. Remove Item from Top Sale
 // Function to remove item from Top Sale collection in Firestore by document ID
@@ -260,8 +264,8 @@ useEffect(() => {
         const newItem = {
           name: foodName,
           category: selectedCategory,
-          price: parseFloat(price), // Convert price to number
-          quantity: parseInt(quantity, 10), // Convert quantity to integer
+          price: Number(price), // Convert price to number
+          quantity: Number(quantity), // Convert quantity to integer
           image: imageUrl, // Save the URL
         };
         
@@ -301,14 +305,14 @@ useEffect(() => {
   const handleEditItem = async () => {
     if (editItemIndex !== null) {
       const currentItem = Aminetyitems[editItemIndex]; // Get the current item being edited
-
-      // Prepare the updated item data
+  
+      // Prepare the updated item data with numeric values
       const updatedItem = {
         name: foodName,
-        price,
-        quantity,
+        price: Number(price), // Ensure price is stored as a number
+        quantity: Number(quantity), // Ensure quantity is stored as a number
       };
-
+  
       try {
         // Check if a new image is being uploaded
         if (itemImage) {
@@ -317,16 +321,16 @@ useEffect(() => {
             currentItem.image.split("/").pop().split("?")[0]
           ); // Decode to prevent double encoding
           const currentImageRef = ref(storage, `${currentImageFileName}`);
-
+  
           // Delete the existing image from Firebase Storage
           await deleteObject(currentImageRef);
           console.log("Existing image deleted from Firebase Storage");
-
+  
           // Upload the new image to Firebase Storage
           const newImageRef = ref(storage, `Aminetyimages/${itemImage.name}`);
           await uploadBytes(newImageRef, itemImage);
           console.log("New image uploaded to Firebase Storage");
-
+  
           // Get the download URL of the newly uploaded image
           const newImageUrl = await getDownloadURL(newImageRef);
           updatedItem.image = newImageUrl; // Set the new image URL
@@ -334,12 +338,29 @@ useEffect(() => {
           // Retain the old image if no new image is provided
           updatedItem.image = currentItem.image;
         }
-
+  
         // Update the item in Firestore with the new data
         const itemRef = doc(db, "Aminetyitems", currentItem.id);
         await updateDoc(itemRef, updatedItem);
         console.log("Item successfully updated in Firestore");
-
+  
+        // Check and update the corresponding item in the topSale collection
+        const topSaleQuery = query(
+          collection(db, "topSale"),
+          where("originalId", "==", currentItem.id)
+        );
+        const topSaleSnapshot = await getDocs(topSaleQuery);
+  
+        if (!topSaleSnapshot.empty) {
+          topSaleSnapshot.forEach(async (doc) => {
+            const topSaleRef = doc.ref; // Reference to the document
+            await updateDoc(topSaleRef, updatedItem); // Update the document
+            console.log("Item successfully updated in topSale collection");
+          });
+        } else {
+          console.log("Item not found in topSale collection");
+        }
+  
         // Reset the form and edit id
         resetItemForm();
         setEditItemIndex(null);
@@ -348,7 +369,7 @@ useEffect(() => {
       }
     }
   };
-
+  
   // Reset the item form state
   const resetItemForm = () => {
     setFoodName("");
@@ -358,6 +379,8 @@ useEffect(() => {
     setItemImage(null);
     setView("Aminetycategories");
   };
+  
+  
 
   // Handle removing an item
   const handleRemoveItem = async (itemToRemove) => {
@@ -543,17 +566,16 @@ useEffect(() => {
             </button>
             <button onClick={() => handleRemoveItem(item)}>Delete</button>
             <motion.div whileTap={{ scale: 0.9 }}>
-              <button
-                onClick={() => handleAddToTopSale(item)}
-                disabled={
-                  topSaleItems.some((topSaleItem) => topSaleItem.id === item.id) ||
-                  topSaleItems.length >= 9
-                }
-              >
-                {topSaleItems.some((topSaleItem) => topSaleItem.id === item.id)
-                  ? "Added to Top Sale"
-                  : "Add to Top Sale"}
-              </button>
+            <button
+  onClick={() => handleAddToTopSale(item)}
+  disabled={
+    topSaleItems.some((topSaleItem) => topSaleItem.originalId === item.id) || 
+    topSaleItems.length >= 9
+  }
+>
+  Add to Top Sale
+</button>
+
             </motion.div>
             </div>
           </div>
