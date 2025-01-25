@@ -101,34 +101,37 @@ const CategoryItemsPage = () => {
           store: 'Storecategories',
           aminety: 'Aminetycategories',
         };
-
+  
         if (!categoryCollectionMap[categoryType]) {
           console.error('Invalid category type:', categoryType);
           return;
         }
-
+  
         const categoryRef = collection(db, categoryCollectionMap[categoryType]);
         const categorySnapshot = await getDocs(categoryRef);
-
+  
         const categoriesData = categorySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-
+  
         // Ensure categoryName exists in the list
         if (!categoriesData.some((category) => category.name === categoryName)) {
           categoriesData.push({ name: categoryName });
         }
-
+  
         setCategories(categoriesData);
       } catch (error) {
         console.error('Error fetching categories:', error);
+        if (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.lastError) {
+          console.warn('Suppressed chrome.runtime.lastError:', chrome.runtime.lastError.message);
+        }
       }
     };
-
+  
     fetchCategories();
   }, [categoryType, categoryName]);
-
+  
   // Add to cart logic
   const handleAddToCart = async (item) => {
     if (!user || !user.uid) {
