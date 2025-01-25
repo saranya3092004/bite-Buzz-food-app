@@ -126,12 +126,35 @@ const Navbar = () => {
   fetchItemsAndCategories();
 }, []);
 
+
 const handleSearch = () => {
   console.log("Search Term:", searchTerm);
   console.log("All Items:", allItems);
 
   // Normalize the search term
   const normalizedSearchTerm = searchTerm.trim().toLowerCase();
+
+  // Check for exact matches first
+  const exactMatch = allItems.find(
+    (item) =>
+      item.name.toLowerCase() === normalizedSearchTerm ||
+      item.category.toLowerCase() === normalizedSearchTerm
+  );
+
+  if (exactMatch) {
+    console.log("Exact Match Found:", exactMatch);
+
+    // Navigate directly to the exact match
+    const formattedCategory =
+      exactMatch.category.charAt(0).toUpperCase() +
+      exactMatch.category.slice(1);
+    navigate(
+      `/category/${exactMatch.source}/${encodeURIComponent(formattedCategory)}`
+    );
+    return; // Exit the function since an exact match was found
+  }
+
+  // If no exact match, proceed with fuzzy search
   const searchKeywords = normalizedSearchTerm.split(/\s+/);
   console.log("Search Keywords:", searchKeywords);
 
@@ -146,23 +169,29 @@ const handleSearch = () => {
   // Search using the full input as well as individual keywords
   const results = [
     ...fuse.search(normalizedSearchTerm),
-    ...searchKeywords.flatMap(keyword => fuse.search(keyword)),
+    ...searchKeywords.flatMap((keyword) => fuse.search(keyword)),
   ];
 
   // Combine and deduplicate results
-  const combinedResults = Array.from(new Map(results.map(res => [res.item.id, res])).values());
+  const combinedResults = Array.from(
+    new Map(results.map((res) => [res.item.id, res])).values()
+  );
   console.log("Combined Results:", combinedResults);
 
   // Sort results by score (lower score is better)
   combinedResults.sort((a, b) => a.score - b.score);
 
   if (combinedResults.length > 0) {
-    const matchedItem = combinedResults[0].item; // Best match
+    const matchedItem = combinedResults[0].item; // Best fuzzy match
     console.log("Matched Item:", matchedItem);
 
     // Construct the navigation URL
-    const formattedCategory = matchedItem.category.charAt(0).toUpperCase() + matchedItem.category.slice(1);
-    navigate(`/category/${matchedItem.source}/${encodeURIComponent(formattedCategory)}`);
+    const formattedCategory =
+      matchedItem.category.charAt(0).toUpperCase() +
+      matchedItem.category.slice(1);
+    navigate(
+      `/category/${matchedItem.source}/${encodeURIComponent(formattedCategory)}`
+    );
   } else {
     alert("No matching items found.");
   }
