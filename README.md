@@ -1,4 +1,6 @@
-# 🍽️ Bite Buzz – Food Ordering App  [https://bite-buzz-food-app-client.vercel.app/](https://bite-buzz-food-app-client.vercel.app/)
+# 🍽️ Bite Buzz – Food Ordering App 
+#Client [https://bite-buzz-food-app-client.vercel.app/](https://bite-buzz-food-app-client.vercel.app/)
+#Admin  [https://bite-buzz-food-app-client.vercel.app/](https://bite-buzz-food-admin-app.vercel.app/)
 
 Bite Buzz is a dynamic **food ordering application** where users can browse through categories, manage their cart, track their orders, and search for food items with an intelligent search feature. The app also includes an **admin panel** for managing categories, food items, and top sales dynamically.  
 
