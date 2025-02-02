@@ -46,5 +46,90 @@ Admins can:
 
 ### 1️⃣ Clone the Repository  
 ```sh
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+git clone https://github.com/saranya3092004/bite-Buzz-food-app.git
+cd bite-Buzz-food-app
+
+2️⃣ Setup Environment Variables
+🟢 Client Side (/client/.env)
+Create a .env file inside the client folder and add the following Firebase credentials:
+
+env
+Copy
+Edit
+VITE_REACT_APP_ADMIN_EMAIL_1="your_admin_email"
+VITE_REACT_APP_FIREBASE_API_KEY="your_api_key"
+VITE_REACT_APP_FIREBASE_AUTH_DOMAIN="your_auth_domain"
+VITE_REACT_APP_FIREBASE_DATABASEURL="your_database_url"
+VITE_REACT_APP_FIREBASE_PROJECT_ID="your_project_id"
+VITE_REACT_APP_FIREBASE_STORAGE_BUCKET="your_storage_bucket"
+VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID="your_messaging_sender_id"
+VITE_REACT_APP_FIREBASE_APP_ID="your_app_id"
+🔵 Admin Side (/admin/.env)
+Create a .env file inside the admin folder and add:
+
+env
+Copy
+Edit
+VITE_REACT_APP_FIREBASE_API_KEY="your_api_key"
+VITE_REACT_APP_FIREBASE_AUTH_DOMAIN="your_auth_domain"
+VITE_REACT_APP_FIREBASE_DATABASEURL="your_database_url"
+VITE_REACT_APP_FIREBASE_PROJECT_ID="your_project_id"
+VITE_REACT_APP_FIREBASE_STORAGE_BUCKET="your_storage_bucket"
+VITE_REACT_APP_FIREBASE_MESSAGING_SENDER_ID="your_messaging_sender_id"
+VITE_REACT_APP_FIREBASE_APP_ID="your_app_id"
+3️⃣ Install Dependencies & Run the Project
+🟢 Start Client
+sh
+Copy
+Edit
+cd client
+npm install
+npm i vite@latest
+npm run dev
+🔵 Start Admin Panel
+sh
+Copy
+Edit
+cd admin
+npm install
+npm i vite@latest
+npm run dev
+🌐 Access the Application
+Client (User Side): http://localhost:5173
+Admin Panel: http://localhost:5174 (or another Vite-assigned port)
+📌 Key Features & Functionality
+✅ User Features (Client Side)
+✔ Browse Food Items & Categories – Users can navigate through different food categories and items.
+✔ Smart Search – A search bar that corrects spelling mistakes and finds partial matches.
+✔ Cart Management – Users can add or remove items from their cart dynamically.
+✔ Order Tracking – Users can manage their orders and check their status.
+✔ Real-Time Availability Check – Items update dynamically when ordered, reducing available quantity.
+✔ Secure Authentication – Users sign in securely using Firebase authentication.
+
+✅ Admin Features (Admin Panel)
+✔ Category Management – Admins can add, edit, or delete food categories with images.
+✔ Food Item Management – Admins can add, update, and remove food items dynamically.
+✔ Top Sales Section – Admins can highlight best-selling items.
+✔ Firebase Integration – All operations are handled dynamically via Firebase Realtime Database.
+
+🎯 Future Enhancements
+🔹 Add Order History feature for users
+🔹 Implement payment gateway integration
+🔹 Improve UI/UX design with animations and better responsiveness
+🔹 Introduce push notifications for order updates
+
+❓ Need Help?
+If you face any issues, feel free to open an issue on GitHub or contact the development team!
+
+vbnet
+Copy
+Edit
+
+This README.md is **GitHub-formatted**, **structured properly**, and **ready to be copied and pasted** into your repository. 🚀 Let me know if you need any changes! 😊
+
+
+
+
+
+
+
