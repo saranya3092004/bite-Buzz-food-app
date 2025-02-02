@@ -101,28 +101,32 @@ npm install
 npm i vite@latest
 npm run dev
 ```
-###🌐 Access the Application
-Client (User Side): http://localhost:5173
-Admin Panel: http://localhost:5174 (or another Vite-assigned port)
 
-###📌 Key Features & Functionality
-✅ User Features (Client Side)
--✔ Browse Food Items & Categories – Users can navigate through different food categories and items.
--✔ Smart Search – A search bar that corrects spelling mistakes and finds partial matches.
--✔ Cart Management – Users can add or remove items from their cart dynamically.
--✔ Order Tracking – Users can manage their orders and check their status.
--✔ Real-Time Availability Check – Items update dynamically when ordered, reducing available quantity.
--✔ Secure Authentication – Users sign in securely using Firebase authentication.
+### 🌐 Access the Application
 
-✅ Admin Features (Admin Panel)
--✔ Category Management – Admins can add, edit, or delete food categories with images.
--✔ Food Item Management – Admins can add, update, and remove food items dynamically.
--✔ Top Sales Section – Admins can highlight best-selling items.
--✔ Firebase Integration – All operations are handled dynamically via Firebase Realtime Database.
+- **Client (User Side)**: [http://localhost:5173](http://localhost:5173)  
+- **Admin Panel**: [http://localhost:5174](http://localhost:5174) (or another Vite-assigned port)
 
-###🎯 Future Enhancements
--🔹 Add Order History feature for users
--🔹 Implement payment gateway integration
--🔹 Improve UI/UX design with animations and better responsiveness
--🔹 Introduce push notifications for order updates
+### 📌 Key Features & Functionality
+
+#### ✅ User Features (Client Side)
+- ✔ **Browse Food Items & Categories**: Users can navigate through different food categories and items.
+- ✔ **Smart Search**: A search bar that corrects spelling mistakes and finds partial matches.
+- ✔ **Cart Management**: Users can add or remove items from their cart dynamically.
+- ✔ **Order Tracking**: Users can manage their orders and check their status.
+- ✔ **Real-Time Availability Check**: Items update dynamically when ordered, reducing available quantity.
+- ✔ **Secure Authentication**: Users sign in securely using Firebase authentication.
+
+#### ✅ Admin Features (Admin Panel)
+- ✔ **Category Management**: Admins can add, edit, or delete food categories with images.
+- ✔ **Food Item Management**: Admins can add, update, and remove food items dynamically.
+- ✔ **Top Sales Section**: Admins can highlight best-selling items.
+- ✔ **Firebase Integration**: All operations are handled dynamically via Firebase Realtime Database.
+
+### 🎯 Future Enhancements
+- 🔹 Add **Order History** feature for users.
+- 🔹 Implement **payment gateway** integration.
+- 🔹 Improve **UI/UX design** with animations and better responsiveness.
+- 🔹 Introduce **push notifications** for order updates.
+
 
